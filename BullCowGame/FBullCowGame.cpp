@@ -1,4 +1,3 @@
-#pragma once
 #include "FBullCowGame.h"
 #include <iostream>
 #include <fstream>
@@ -20,8 +19,8 @@ int32 FBullCowGame::GetHiddwnWordLength() const { return MyHiddenWord.length(); 
 
 bool FBullCowGame::IsGameWon() const { return bGameIsWon; }
 
-int32 FBullCowGame::GetMaxTries() const 
-{ 
+int32 FBullCowGame::GetMaxTries() const
+{
 	//maps word length to max tries
 	TMap<int32, int32> WordLengthToMaxTries{ {3,4}, {4,7}, {5,10}, {6,15}, {7,15}, {8,20}, {9,40} };
 	return WordLengthToMaxTries[MyHiddenWord.length()]; //use square brackets to access elements
@@ -32,7 +31,7 @@ void FBullCowGame::ChooseDifficulty() //:: is a scope operator needed to access 
 	std::cout << "\n\nBefore you begin please select your difficulty: (enter 1, 2, 3, 4, or 5)\n\n";
 	std::cout << "Word Novice: In this mode there are only 3 and 4 letter words\n";
 	std::cout << "(enter 1 for this mode)\n\n";
-	std::cout << "Word Pro: In this mode there are only 5 and 6 letter words\n";			
+	std::cout << "Word Pro: In this mode there are only 5 and 6 letter words\n";
 	std::cout << "(enter 2 for this mode)\n\n";
 	std::cout << "Word Champion: In this mode there are only 7 and 8 letter words\n";
 	std::cout << "(enter 3 for this mode)\n\n";
@@ -40,9 +39,9 @@ void FBullCowGame::ChooseDifficulty() //:: is a scope operator needed to access 
 	std::cout << "(enter 4 for this mode)\n\n";
 	std::cout << "Word God: This mode is for the true word master with words ranging from 3-16 letters long!\n";
 	std::cout << "(enter 5 for this mode)\n\n";
-	std::cout << "NOTE: The number of tries you get varies depending on the difficulty\n\n"; 
+	std::cout << "NOTE: The number of tries you get varies depending on the difficulty\n\n";
 	std::cin >> Difficulty;
-	/*without this it will count our selection as a guess so basically we have 5 difficulties and it 
+	/*without this it will count our selection as a guess so basically we have 5 difficulties and it
 	will take out that many characters until it reachs a newline then it stops*/
 	std::cin.ignore(5, '\n');
 	switch (Difficulty)
@@ -66,14 +65,14 @@ void FBullCowGame::ChooseDifficulty() //:: is a scope operator needed to access 
 		std::cerr << "Oops that's not good :/\n";
 		exit(EXIT_FAILURE);
 	}
-  
+
 	return;
 }
 
 EGuessStatus FBullCowGame::CheckGuessValidity(FString Guess) const
 {
-	
-	if (!IsIsogram(Guess)) //if the guess isn't an isogram 
+
+	if (!IsIsogram(Guess)) //if the guess isn't an isogram
 	{
 		return EGuessStatus::Not_Isogram;
 	}
@@ -96,7 +95,7 @@ EGuessStatus FBullCowGame::CheckGuessValidity(FString Guess) const
 FBullCowCount FBullCowGame::SubmitValidGuess(FString Guess)
 {
 	MyCurrentTry++;
-	FBullCowCount BullCowCount; 
+	FBullCowCount BullCowCount;
 	int32 WordLength = MyHiddenWord.length(); //assuming same length as guess
 
 	//loop through all letters that are in the hidden word
@@ -106,11 +105,11 @@ FBullCowCount FBullCowGame::SubmitValidGuess(FString Guess)
 		for (int32 GChar = 0; GChar < WordLength; GChar++)
 		{
 			//if they match then
-			if (Guess[GChar] == MyHiddenWord[MHWChar]) 
+			if (Guess[GChar] == MyHiddenWord[MHWChar])
 			{
 				if (GChar == MHWChar) //if they're in the same place
 				{
-					BullCowCount.Bulls++; //increment bulls 
+					BullCowCount.Bulls++; //increment bulls
 				}
 				else
 				{
@@ -127,7 +126,7 @@ FBullCowCount FBullCowGame::SubmitValidGuess(FString Guess)
 	{
 		bGameIsWon = false;
 	}
-	
+
 	return BullCowCount;
 }
 
@@ -139,26 +138,26 @@ bool FBullCowGame::IsIsogram(FString Word) const //our parameter is Word becuase
 	TMap<char, bool> LetterSeen; //set up our map (this is the syntax)
 	for (auto Letter : Word)  //for all letters in the word
 	{
-		Letter = tolower(Letter); //calls the tolower function so we can handle mixed cases 
+		Letter = tolower(Letter); //calls the tolower function so we can handle mixed cases
 								 //(we want are next loop to only deal with lowercase letters)
 		//if the letter is in the map
-			if (LetterSeen[Letter]) //LetterSeen is a list of all the letters that have been seen 
+			if (LetterSeen[Letter]) //LetterSeen is a list of all the letters that have been seen
 			{					    //and [Letter] is the check for seen letters
 				return false; //we do NOT have an isogram
 			}
-			else 
+			else
 			{
 				LetterSeen[Letter] = true; //add the letter to the map as seen
 			}
 	}
-	
+
 	return true; //for example in cases where /0 is entered
 }
 
 bool FBullCowGame::IsLowerCase(FString Word) const
 {
 	if (Word.length() <= 1) { return true;  }
-	
+
 	TMap <char, bool> LowerLetter;
 	//for all letters in the word
 	for (auto Letter : Word)
@@ -194,7 +193,7 @@ void FBullCowGame::Easy()
 	and stores them in a string (in this case Word)*/
 	while (std::getline(PossibleWords, Word))
 	{
-		//we then add the characters we stored in our string to our vector! 
+		//we then add the characters we stored in our string to our vector!
 		RandomWord.push_back(Word);
 	}
 
@@ -208,7 +207,7 @@ void FBullCowGame::Easy()
 
 	MyCurrentTry = 1;
 	bGameIsWon = false;
-	
+
 	return;
 }
 
@@ -216,7 +215,7 @@ void FBullCowGame::Easy()
 
 void FBullCowGame::Medium()
 {
-	std::vector<FString> RandomWord; 
+	std::vector<FString> RandomWord;
 	FString Word = "";
 
 	std::ifstream PossibleWords;
@@ -229,7 +228,7 @@ void FBullCowGame::Medium()
 	}
 
 	while (std::getline(PossibleWords, Word))
-	{ 
+	{
 		RandomWord.push_back(Word);
 	}
 
@@ -293,7 +292,7 @@ void FBullCowGame::Harder()
 	}
 
 	while (std::getline(PossibleWords, Word))
-	{ 
+	{
 		RandomWord.push_back(Word);
 	}
 

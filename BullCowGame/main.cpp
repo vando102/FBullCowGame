@@ -1,11 +1,10 @@
-/*This is the console exectuable, that makes use of the BullCow class 
+/*This is the console exectuable, that makes use of the BullCow class
 This acts as a view in an MVC pattern, and is responsible for all
 user interaction. For game logic see the FBullCowGame class.
 */
 
 //TODO add pre/post  conditions to all my members/functions
 //TODO add my personal info (such as name) in my .h file
-#pragma once
 #include "FBullCowGame.h"
 #include <iostream>
 #include <string>
@@ -19,7 +18,7 @@ using int32 = int; //we're going to need to get use to unreal's coding standards
 
 void PrintIntro(); // function declaration
 void PlayGame();
-FText GetValidGuess(); 
+FText GetValidGuess();
 bool AskToPlayAgain();
 void PrintGameSummary();
 
@@ -62,7 +61,7 @@ void PlayGame()
 	//and there are still tries remaining
 	while (!BCGame.IsGameWon() && BCGame.GetCurrentTry() <= MaxTries)
 	{
-		FText Guess = GetValidGuess(); 
+		FText Guess = GetValidGuess();
 
 		//submit valid guess to the game
 		FBullCowCount BullCowCount = BCGame.SubmitValidGuess(Guess);
@@ -70,7 +69,7 @@ void PlayGame()
 		cout << "Bulls = " << BullCowCount.Bulls;
 		cout << " Cows = " << BullCowCount.Cows << "\n\n";
 	}
-	
+
 	PrintGameSummary();
 }
 
@@ -90,7 +89,7 @@ FText GetValidGuess()
 	    Status = BCGame.CheckGuessValidity(Guess);
 		switch (Status)
 		{
-		case EGuessStatus::Wrong_Length:			
+		case EGuessStatus::Wrong_Length:
 			cout << "Please enter a " << BCGame.GetHiddwnWordLength() << " letter word.\n\n";
 			break;
 
@@ -105,7 +104,7 @@ FText GetValidGuess()
 			break;
 		}
 	} while (Status != EGuessStatus::OK); //keep looping until we get no errors
-	
+
 	return Guess;
 }
 
