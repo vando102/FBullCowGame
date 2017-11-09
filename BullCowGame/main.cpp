@@ -38,7 +38,7 @@ int main() //since we added functions main is much easier to understand
 }
 
 //introduce the game
-void PrintIntro() //function definition
+void PrintIntro()
 {
 	cout << "\n\nWelcome to Bulls and Cows, a fun word game!\n";
 	cout << '\n';
